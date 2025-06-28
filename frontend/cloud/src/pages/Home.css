@@ -1,0 +1,94 @@
+/* src/pages/Home.css */
+/* src/index.css (или глобальный файл стилей) */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* убираем горизонтальный скролл */
+}
+
+
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.home__hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.home__features {
+  padding: 2rem 1rem;
+  background-color: #f9f9f9;
+}
+
+.home__title {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.home__subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.home__buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.home__button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.home__button--primary {
+  background-color: #0066ff;
+  color: #fff;
+}
+
+.home__button--secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Базовые стили карточек преимуществ */
+.home__features-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.home__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.home__card {
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.home__card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.home__card-text {
+  font-size: 1rem;
+  color: #555;
+}
