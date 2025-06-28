@@ -1,6 +1,7 @@
 // src/firebase.js
-import { initializeApp } from 'firebase/app'
-import { getAuth }      from 'firebase/auth'
+import { initializeApp }    from 'firebase/app'
+import { getAuth }          from 'firebase/auth'
+import { getStorage }       from 'firebase/storage'
 
 // TODO: замените эти параметры на свои из Firebase Console
 const firebaseConfig = {
@@ -13,5 +14,6 @@ const firebaseConfig = {
   measurementId: "G-1NJT2N71MZ"
 };
 
-const app  = initializeApp(firebaseConfig)
-export const auth = getAuth(app)
+const app     = initializeApp(firebaseConfig)
+export const auth    = getAuth(app)
+export const storage = getStorage(app)
