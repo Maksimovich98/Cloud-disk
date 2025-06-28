@@ -1,34 +1,67 @@
 // src/components/Header.jsx
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { signOut }             from 'firebase/auth'
+import { auth }                from '../firebase'
+import AuthContext             from '../context/AuthContext'
 
 export default function Header() {
-  const isAuth = Boolean(localStorage.getItem('accessToken'))
+  const user = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken')
-    navigate('/')   // возвращаемся на главную
+  const handleLogout = async () => {
+    await signOut(auth)
+    navigate('/login')
   }
 
   return (
-    <header className="header">
-      <div className="header__logo">
-        <Link to="/">SecureCloud</Link>
-      </div>
-      <nav className="header__nav">
-        {isAuth ? (
-          <>
-            <button onClick={() => navigate('/disk')}>Моё хранилище</button>
-            <button onClick={handleLogout}>Выйти</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Войти</Link>
-            <Link to="/register">Регистрация</Link>
-          </>
-        )}
+    <header style={styles.header}>
+      <nav style={styles.nav}>
+        {/* Новая ссылка «Главная» */}
+        <NavLink to="/" exact style={styles.link} activeStyle={styles.active}>
+          Главная
+        </NavLink>
+        <NavLink to="/my-files" style={styles.link} activeStyle={styles.active}>
+          Мои файлы
+        </NavLink>
+        <NavLink to="/profile" style={styles.link} activeStyle={styles.active}>
+          Профиль
+        </NavLink>
       </nav>
+
+      {user && (
+        <button onClick={handleLogout} style={styles.logout}>
+          Выйти
+        </button>
+      )}
     </header>
   )
+}
+
+const styles = {
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '10px 20px',
+    borderBottom: '1px solid #ddd',
+  },
+  nav: {
+    display: 'flex',
+    gap: 20,
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#444',
+  },
+  active: {
+    fontWeight: 'bold',
+    color: '#1976d2',
+  },
+  logout: {
+    background: 'transparent',
+    border: '1px solid #1976d2',
+    padding: '5px 15px',
+    cursor: 'pointer',
+  },
 }

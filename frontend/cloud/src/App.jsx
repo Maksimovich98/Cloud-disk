@@ -1,41 +1,37 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Home     from './pages/Home';
-import Login    from './pages/Login';
-import Register from './pages/Register';
-import Disk     from './pages/Disk';
-import Profile  from './pages/Profile';
-import Header   from './components/Header';
-import Footer   from './components/Footer';
-
+import React, { useContext } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Header      from './components/Header'
+import Home        from './pages/Home'
+import MyFiles     from './pages/MyFiles'
+import Profile     from './pages/Profile'
+import Login       from './pages/Login'
+import Register    from './pages/Register'
+import AuthContext from './context/AuthContext'
 
 export default function App() {
-  const isAuth = Boolean(localStorage.getItem('accessToken'));
+  const user = useContext(AuthContext)
 
   return (
-    <Router>
+    <BrowserRouter>
       <Header />
 
-      <main>
+      <main style={{ padding: 20 }}>
         <Routes>
-          <Route
-            path="/"
-            element={isAuth ? <Navigate to="/disk" replace /> : <Home />}
-          />
-          <Route path="/login"    element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/disk"
-            element={isAuth ? <Disk /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/profile"
-            element={isAuth ? <Profile /> : <Navigate to="/login" replace />}
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Главная — доступна всем */}
+          <Route path="/" element={<Home />} />
+
+          {/* Аутентификация */}
+          <Route path="/login"    element={!user ? <Login />    : <Navigate to="/my-files" />} />
+          <Route path="/register" element={!user ? <Register /> : <Navigate to="/my-files" />} />
+
+          {/* Защищённые */}
+          <Route path="/my-files" element={user ? <MyFiles />   : <Navigate to="/login" />} />
+          <Route path="/profile"  element={user ? <Profile />   : <Navigate to="/login" />} />
+
+          {/* Любой другой маршрут */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
-
-      <Footer />
-    </Router>
-  );
+    </BrowserRouter>
+  )
 }

@@ -1,10 +1,14 @@
+// src/main.jsx
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'      // ваш CSS
-import App from './App.jsx'
+import App from './App'
+import AuthProvider from './context/AuthProvider'   // 1) импорт провайдера
 
-createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+const rootElement = document.getElementById('root')
+const root = createRoot(rootElement)
+
+root.render(
+  <AuthProvider>   {/* 2) обёртка провайдера */}
     <App />
-  </React.StrictMode>
+  </AuthProvider>
 )
